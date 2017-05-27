@@ -1,27 +1,8 @@
 const mongoose = require(`mongoose`);
 const bcrypt = require(`bcryptjs`);
-const dbconfig = require(`../config/database`);
-
-// User Schema
-const UserSchema = mongoose.Schema({
-    name: {
-        type: String
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
-});
-
-const User = module.exports = mongoose.model('User', UserSchema);
+const Q = require('q');
+const dbconfig = require(`../../config/database`);
+const User = require('./userSchema');
 
 module.exports = {
 
@@ -34,14 +15,22 @@ module.exports = {
         User.findOne(query, callback);
     },
 
-    addUser: function(newUser, callback) {
+    addUser: function(newUser) {
+        let deferred = new Q.defer();
         bcrypt.genSalt(10, (err, salt) => {
             if(err) throw err;
             bcrypt.hash(newUser.password, salt, (err, hash) => {
                 if(err) throw err;
                 newUser.password = hash;
-                newUser.save(callback);
+                newUser.save((err)=>{
+                  if(err){
+                    deferred.resolve({success:false, message:`Error saving the user ${newUser.username}`});
+                  }else{
+                    deferred.resolve({success:true, message:`User ${newUser.username} saved successfully`});
+                  }
+                });
             });
         });
+        return deferred.promise;
     }
 }
