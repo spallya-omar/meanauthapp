@@ -17,19 +17,15 @@ router.post(`/register`, (req, res, next) => {
     });
 });
 
-router.post('/test',(req,res)=>{
-
-});
-
 // Authenticate
 router.post(`/authenticate`, (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
     User.getUserByUsername(username, (err, user) => {
-        if(err) {
+        if(err) throw err;
+        if(!user) {
             return res.json({success: false, msg: `User not found`});
-        }
-        if(user) {
+        } else {
             User.comparePassword(password, user.password, (err, isMatch) => {
                 if(err) throw err;
                 if(isMatch) {
@@ -37,6 +33,8 @@ router.post(`/authenticate`, (req, res, next) => {
                         expiresIn: 604880 // 1 week secs
                     });
                     res.json({
+                        sucess: true,
+                        toke: 'JWT ' + token,
                         user: {
                             id: user._id,
                             name: user.name,
@@ -53,8 +51,8 @@ router.post(`/authenticate`, (req, res, next) => {
 });
 
 // Profile
-router.get(`/profile`, (req, res, next) => {
-    res.send(`Profile Page`);
+router.get(`/profile`, passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    res.json({user: req.user});
 });
 
 module.exports = router;
