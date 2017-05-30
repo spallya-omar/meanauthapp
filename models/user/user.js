@@ -37,7 +37,7 @@ module.exports = {
     comparePassword: function(candidatePassword, hash, callback) {
         bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
             if(err) throw err;
-            callback(isMatch);
+            callback(err, isMatch);
         });
     }
 }
