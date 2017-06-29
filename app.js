@@ -5,6 +5,22 @@ const cors = require(`cors`);
 const passport = require(`passport`);
 const mongoose = require(`mongoose`);
 const dbConfig = require(`./config/database`);
+// const { exec } = require('child_process');
+// const cron = require('node-cron');
+// let count = 1;
+// // cron.schedule('* * * * *', function(){
+// setInterval(()=>{
+//   console.log('running a task every minute');
+//   console.log(count++);
+//   exec(`curl "localhost:27017/meanauth"`, (error, stdout, stderr)=>{
+//     if (error) {
+//       console.error(`exec error: ${error}`);
+//       return;
+//     }
+//     console.log(`stdout: ${stdout}`);
+//     console.log(JSON.stringify(stderr));
+//   });
+// },1000);
 
 // connecting database
 mongoose.connect(dbConfig.database);

@@ -7,6 +7,10 @@ body {
   padding-top: 50px;
 }
 
+.main {
+  margin-top: 60px;
+  margin-left: 120px;
+}
 
 /*
  * Global add-ons
@@ -23,7 +27,6 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
-  background-color: #030300;
 }
 
 /*

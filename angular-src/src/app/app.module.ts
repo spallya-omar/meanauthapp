@@ -18,6 +18,7 @@ import { AuthService } from "./services/auth.service";
 import { AuthGuard } from "./guard/auth.guard";
 
 import { FlashMessagesModule } from "angular2-flash-messages";
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     HomeComponent,
     DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
